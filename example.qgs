@@ -19,10 +19,10 @@
   <mapcanvas>
     <units>meters</units>
     <extent>
-      <xmin>3493005.59706107201054692</xmin>
-      <ymin>6452394.26945370994508266</ymin>
-      <xmax>4095343.30792786786332726</xmax>
-      <ymax>6742353.36600000970065594</ymax>
+      <xmin>3405698.79482832690700889</xmin>
+      <ymin>6492019.65407107677310705</ymin>
+      <xmax>4008036.50569512089714408</xmax>
+      <ymax>6781978.75061737652868032</ymax>
     </extent>
     <rotation>0</rotation>
     <projections>0</projections>
@@ -145,6 +145,9 @@
         <edittype widgetv2type="TextEdit" name="type">
           <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
         </edittype>
+        <edittype widgetv2type="TextEdit" name="label">
+          <widgetv2config IsMultiline="0" fieldEditable="1" constraint="" UseHtml="0" labelOnTop="0" constraintDescription="" notNull="0"/>
+        </edittype>
       </edittypes>
       <renderer-v2 forceraster="0" symbollevels="0" type="singleSymbol" enableorderby="0">
         <symbols>
@@ -175,10 +178,10 @@
         <sizescale scalemethod="diameter"/>
       </renderer-v2>
       <labeling type="rule-based">
-        <rules key="{8b30af88-d4ca-42cf-8813-531b34d6e3b6}">
-          <rule key="{71785531-7002-4bbd-93c3-45a6a0caab48}">
+        <rules key="{c60ab652-5bb0-481c-bff5-84a8f42992af}">
+          <rule key="{ba208a87-66bd-4d50-ad96-4567802b52a7}">
             <settings>
-              <text-style fontItalic="0" fontFamily="MS Shell Dlg 2" fontLetterSpacing="0" fontUnderline="0" fontWeight="50" fontStrikeout="0" textTransp="0" previewBkgrdColor="#ffffff" fontCapitals="0" textColor="0,0,0,255" fontSizeInMapUnits="0" isExpression="0" blendMode="0" fontSizeMapUnitScale="0,0,0,0,0,0" fontSize="12" fieldName="id" namedStyle="Normal" fontWordSpacing="0" useSubstitutions="0">
+              <text-style fontItalic="0" fontFamily="MS Shell Dlg 2" fontLetterSpacing="0" fontUnderline="0" fontWeight="50" fontStrikeout="0" textTransp="0" previewBkgrdColor="#ffffff" fontCapitals="0" textColor="0,0,0,255" fontSizeInMapUnits="0" isExpression="0" blendMode="0" fontSizeMapUnitScale="0,0,0,0,0,0" fontSize="12" fieldName="label" namedStyle="Normal" fontWordSpacing="0" useSubstitutions="0">
                 <substitutions/>
               </text-style>
               <text-format placeDirectionSymbol="0" multilineAlign="3" rightDirectionSymbol=">" multilineHeight="1" plussign="0" addDirectionSymbol="0" leftDirectionSymbol="&lt;" formatNumbers="0" decimals="3" wrapChar="" reverseDirectionSymbol="0"/>
@@ -394,6 +397,7 @@
       <aliases>
         <alias field="id" index="0" name=""/>
         <alias field="type" index="1" name=""/>
+        <alias field="label" index="2" name=""/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
@@ -403,6 +407,7 @@
           <column width="-1" hidden="0" type="field" name="id"/>
           <column width="-1" hidden="0" type="field" name="type"/>
           <column width="-1" hidden="0" type="actions"/>
+          <column width="-1" hidden="0" type="field" name="label"/>
         </columns>
       </attributetableconfig>
       <editform>.</editform>
@@ -436,6 +441,7 @@ def my_form_open(dialog, layer, feature):
       <defaults>
         <default field="id" expression=""/>
         <default field="type" expression=""/>
+        <default field="label" expression=""/>
       </defaults>
       <previewExpression>COALESCE( "id", '&lt;NULL>' )</previewExpression>
     </maplayer>
@@ -701,8 +707,8 @@ def my_form_open(dialog, layer, feature):
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
-      <attributeactions default="-1">
-        <actionsetting showInAttributeTable="1" action="import math&#xd;&#xa;&#xd;&#xa;def label_placement(bear):&#xd;&#xa;&#x9;place = 0&#xd;&#xa;&#x9;if bear &lt; 22.5 or bear > 337.5:&#xd;&#xa;&#x9;&#x9;place = 0&#xd;&#xa;&#x9;elif bear >= 22.5 and bear &lt; 67.5:&#xd;&#xa;&#x9;&#x9;place = 2&#xd;&#xa;&#x9;elif bear >= 67.5 and bear &lt; 112.5:&#xd;&#xa;&#x9;&#x9;place = 5&#xd;&#xa;&#x9;elif bear >= 112.5 and bear &lt; 157.5:&#xd;&#xa;&#x9;&#x9;place = 8&#xd;&#xa;&#x9;elif bear >= 157.5 and bear &lt; 202.5:&#xd;&#xa;&#x9;&#x9;place = 7&#xd;&#xa;&#x9;elif bear >= 202.5 and bear &lt; 247.5:&#xd;&#xa;&#x9;&#x9;place = 6&#xd;&#xa;&#x9;elif bear >= 247.5 and bear &lt; 292.5:&#xd;&#xa;&#x9;&#x9;place = 3&#xd;&#xa;&#x9;elif bear >= 292.5 and bear &lt;= 337.5:&#xd;&#xa;&#x9;&#x9;place = 0&#xd;&#xa;&#x9;&#xd;&#xa;&#x9;return place&#xd;&#xa;&#x9;&#xd;&#xa;&#xd;&#xa;def reverse_azimuth(az):&#xd;&#xa;&#x9;if az &lt; 180:&#xd;&#xa;&#x9;&#x9;az += 180&#xd;&#xa;&#x9;else:&#xd;&#xa;&#x9;&#x9;az -= 180&#xd;&#xa;&#x9;return az&#xd;&#xa;&#xd;&#xa;def direct_geodetic_task(pnt, dist, bear):&#xd;&#xa;&#x9;deg = bear * math.pi / 180&#xd;&#xa;&#x9;dx = dist * math.sin(deg)&#xd;&#xa;&#x9;dy = dist * math.cos(deg)&#xd;&#xa;&#x9;x = pnt.x() + dx&#xd;&#xa;&#x9;y = pnt.y() + dy&#xd;&#xa;&#x9;return QgsPoint(x, y)&#xd;&#xa;&#xd;&#xa;def point_in_poly(x , y, poly):&#xd;&#xa;&#x9;n = len(poly)&#xd;&#xa;&#x9;inside = False&#xd;&#xa;&#x9;p1x = poly[0].x()&#xd;&#xa;&#x9;p1y = poly[0].y()&#xd;&#xa;&#x9;for i in range(n + 1):&#xd;&#xa;&#x9;&#x9;p2x = poly[i % n].x()&#xd;&#xa;&#x9;&#x9;p2y = poly[i % n].y()&#xd;&#xa;&#x9;&#x9;if y > min(p1y,p2y):&#xd;&#xa;&#x9;&#x9;&#x9;if y &lt;= max(p1y,p2y):&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;if x &lt;= max(p1x,p2x):&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;if p1y != p2y:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;xints = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;if p1x == p2x or x &lt;= xints:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;inside = not inside&#xd;&#xa;&#x9;&#x9;p1x,p1y = p2x,p2y&#xd;&#xa;&#x9;return inside&#xd;&#xa;&#xd;&#xa;def clear_layer(layer):&#xd;&#xa;&#x9;listOfIds = [feat.id() for feat in layer.getFeatures()]&#xd;&#xa;&#x9;layer.dataProvider().deleteFeatures(listOfIds)&#xd;&#xa;&#xd;&#xa;def bisextrix_bearing(H, A, T):&#xd;&#xa;&#x9;x0 = (H.x() + T.x()) / 2&#xd;&#xa;&#x9;y0 = (H.y() + T.y()) / 2&#xd;&#xa;&#x9;&#xd;&#xa;&#x9;azAH = A.azimuth(H)&#xd;&#xa;&#x9;azAT = A.azimuth(T)&#xd;&#xa;&#x9;return (azAH + azAT)/2.0&#xd;&#xa;&#xd;&#xa;print &quot;Ok&quot;&#xd;&#xa;layer=None&#xd;&#xa;rectLayer = None&#xd;&#xa;layerList = QgsMapLayerRegistry.instance().mapLayersByName(&quot;point&quot;)&#xd;&#xa;if len(layerList) > 0:&#xd;&#xa;&#x9;layer = layerList[0]&#xd;&#xa;else:&#xd;&#xa;&#x9;print &quot;Point table not found&quot;&#xd;&#xa;&#xd;&#xa;layerList = QgsMapLayerRegistry.instance().mapLayersByName(&quot;rectangle&quot;)&#xd;&#xa;if len(layerList) > 0:&#xd;&#xa;&#x9;rectLayer = layerList[0]&#xd;&#xa;else:&#xd;&#xa;&#x9;print &quot;Polygon table not found&quot;&#xd;&#xa;&#x9;&#xd;&#xa;print layer.name()&#xd;&#xa;print rectLayer.name()&#xd;&#xa;&#xd;&#xa;clear_layer(layer)&#xd;&#xa;&#xd;&#xa;counter = 0&#xd;&#xa;for feat in rectLayer.getFeatures():&#xd;&#xa;&#x9;polys = feat.geometry().asPolygon()&#xd;&#xa;&#x9;&#xd;&#xa;&#x9;poly = polys[0]&#xd;&#xa;&#x9;if len(poly) > 3:&#xd;&#xa;&#x9;&#x9;print counter, &quot;Vertices=&quot;, len(poly)&#xd;&#xa;&#x9;&#x9;poly_len = len(poly)&#xd;&#xa;&#x9;&#x9;for i in range(0, poly_len - 1):&#xd;&#xa;&#x9;&#x9;&#x9;first_ind = i - 1&#xd;&#xa;&#x9;&#x9;&#x9;if first_ind &lt; 0:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;first_ind = poly_len - 2&#xd;&#xa;&#x9;&#x9;&#x9;cr0 = poly[first_ind]&#xd;&#xa;&#x9;&#x9;&#x9;cr1= poly[i]&#xd;&#xa;&#x9;&#x9;&#x9;cr2 = poly[i + 1]&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;&#x9;counter += 1&#xd;&#xa;&#x9;&#x9;&#x9;az = bisextrix_bearing(cr0, cr1, cr2)&#xd;&#xa;&#x9;&#x9;&#x9;if az &lt; 0:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;az = 360 + az&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;&#x9;pnt1 = direct_geodetic_task(cr1, 1, az)&#xd;&#xa;&#x9;&#x9;&#x9;res = point_in_poly(pnt1.x() , pnt1.y(), poly)&#xd;&#xa;&#x9;&#x9;&#x9;if res:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;az = reverse_azimuth(az)&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;&#x9;type = label_placement(az)&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;&#x9;feat = QgsFeature(layer.pendingFields())&#xd;&#xa;&#x9;&#x9;&#x9;feat.setAttribute(&quot;id&quot;, counter)&#xd;&#xa;&#x9;&#x9;&#x9;feat.setAttribute(&quot;type&quot;, type)&#xd;&#xa;&#x9;&#x9;&#x9;feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(cr1.x(), cr1.y())))&#xd;&#xa;&#x9;&#x9;&#x9;(res, outFeats) = layer.dataProvider().addFeatures([feat])&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;layer.triggerRepaint()&#xd;&#xa;" icon="" capture="1" type="1" name="Generate points" shortTitle=""/>
+      <attributeactions default="0">
+        <actionsetting showInAttributeTable="1" action="import math&#xd;&#xa;&#xd;&#xa;def label_placement(bear):&#xd;&#xa;&#x9;place = 0&#xd;&#xa;&#x9;if bear &lt; 22.5 or bear > 337.5:&#xd;&#xa;&#x9;&#x9;place = 0&#xd;&#xa;&#x9;elif bear >= 22.5 and bear &lt; 67.5:&#xd;&#xa;&#x9;&#x9;place = 2&#xd;&#xa;&#x9;elif bear >= 67.5 and bear &lt; 112.5:&#xd;&#xa;&#x9;&#x9;place = 5&#xd;&#xa;&#x9;elif bear >= 112.5 and bear &lt; 157.5:&#xd;&#xa;&#x9;&#x9;place = 8&#xd;&#xa;&#x9;elif bear >= 157.5 and bear &lt; 202.5:&#xd;&#xa;&#x9;&#x9;place = 7&#xd;&#xa;&#x9;elif bear >= 202.5 and bear &lt; 247.5:&#xd;&#xa;&#x9;&#x9;place = 6&#xd;&#xa;&#x9;elif bear >= 247.5 and bear &lt; 292.5:&#xd;&#xa;&#x9;&#x9;place = 3&#xd;&#xa;&#x9;elif bear >= 292.5 and bear &lt;= 337.5:&#xd;&#xa;&#x9;&#x9;place = 0&#xd;&#xa;&#x9;&#xd;&#xa;&#x9;return place&#xd;&#xa;&#x9;&#xd;&#xa;def reverse_azimuth(az):&#xd;&#xa;&#x9;if az &lt; 180:&#xd;&#xa;&#x9;&#x9;az += 180&#xd;&#xa;&#x9;else:&#xd;&#xa;&#x9;&#x9;az -= 180&#xd;&#xa;&#x9;return az&#xd;&#xa;&#xd;&#xa;def direct_geodetic_task(pnt, dist, bear):&#xd;&#xa;&#x9;deg = bear * math.pi / 180&#xd;&#xa;&#x9;dx = dist * math.sin(deg)&#xd;&#xa;&#x9;dy = dist * math.cos(deg)&#xd;&#xa;&#x9;x = pnt.x() + dx&#xd;&#xa;&#x9;y = pnt.y() + dy&#xd;&#xa;&#x9;return QgsPoint(x, y)&#xd;&#xa;&#xd;&#xa;def point_in_poly(x , y, poly):&#xd;&#xa;&#x9;n = len(poly)&#xd;&#xa;&#x9;inside = False&#xd;&#xa;&#x9;p1x = poly[0].x()&#xd;&#xa;&#x9;p1y = poly[0].y()&#xd;&#xa;&#x9;for i in range(n + 1):&#xd;&#xa;&#x9;&#x9;p2x = poly[i % n].x()&#xd;&#xa;&#x9;&#x9;p2y = poly[i % n].y()&#xd;&#xa;&#x9;&#x9;if y > min(p1y,p2y):&#xd;&#xa;&#x9;&#x9;&#x9;if y &lt;= max(p1y,p2y):&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;if x &lt;= max(p1x,p2x):&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;if p1y != p2y:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;xints = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;if p1x == p2x or x &lt;= xints:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;inside = not inside&#xd;&#xa;&#x9;&#x9;p1x,p1y = p2x,p2y&#xd;&#xa;&#x9;return inside&#xd;&#xa;&#xd;&#xa;def clear_layer(layer):&#xd;&#xa;&#x9;listOfIds = [feat.id() for feat in layer.getFeatures()]&#xd;&#xa;&#x9;layer.dataProvider().deleteFeatures(listOfIds)&#xd;&#xa;&#xd;&#xa;def bisextrix_bearing(H, A, T):&#xd;&#xa;&#x9;x0 = (H.x() + T.x()) / 2&#xd;&#xa;&#x9;y0 = (H.y() + T.y()) / 2&#xd;&#xa;&#x9;&#xd;&#xa;&#x9;azAH = A.azimuth(H)&#xd;&#xa;&#x9;azAT = A.azimuth(T)&#xd;&#xa;&#x9;return (azAH + azAT)/2.0&#xd;&#xa;&#xd;&#xa;print &quot;Ok&quot;&#xd;&#xa;layer=None&#xd;&#xa;rectLayer = None&#xd;&#xa;layerList = QgsMapLayerRegistry.instance().mapLayersByName(&quot;point&quot;)&#xd;&#xa;if len(layerList) > 0:&#xd;&#xa;&#x9;layer = layerList[0]&#xd;&#xa;else:&#xd;&#xa;&#x9;print &quot;Point table not found&quot;&#xd;&#xa;&#xd;&#xa;layerList = QgsMapLayerRegistry.instance().mapLayersByName(&quot;rectangle&quot;)&#xd;&#xa;if len(layerList) > 0:&#xd;&#xa;&#x9;rectLayer = layerList[0]&#xd;&#xa;else:&#xd;&#xa;&#x9;print &quot;Polygon table not found&quot;&#xd;&#xa;&#x9;&#xd;&#xa;print layer.name()&#xd;&#xa;print rectLayer.name()&#xd;&#xa;&#xd;&#xa;#clear_layer(layer)&#xd;&#xa;&#xd;&#xa;counter = 0&#xd;&#xa;for feat in rectLayer.getFeatures():&#xd;&#xa;&#x9;polys = feat.geometry().asPolygon()&#xd;&#xa;&#x9;&#xd;&#xa;&#x9;poly = polys[0]&#xd;&#xa;&#x9;if len(poly) > 3:&#xd;&#xa;&#x9;&#x9;print counter, &quot;Vertices=&quot;, len(poly)&#xd;&#xa;&#x9;&#x9;poly_len = len(poly)&#xd;&#xa;&#x9;&#x9;for i in range(0, poly_len - 1):&#xd;&#xa;&#x9;&#x9;&#x9;first_ind = i - 1&#xd;&#xa;&#x9;&#x9;&#x9;if first_ind &lt; 0:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;first_ind = poly_len - 2&#xd;&#xa;&#x9;&#x9;&#x9;cr0 = poly[first_ind]&#xd;&#xa;&#x9;&#x9;&#x9;cr1= poly[i]&#xd;&#xa;&#x9;&#x9;&#x9;cr2 = poly[i + 1]&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;&#x9;counter += 1&#xd;&#xa;&#x9;&#x9;&#x9;az = bisextrix_bearing(cr0, cr1, cr2)&#xd;&#xa;&#x9;&#x9;&#x9;if az &lt; 0:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;az = 360 + az&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;&#x9;pnt1 = direct_geodetic_task(cr1, 1, az)&#xd;&#xa;&#x9;&#x9;&#x9;res = point_in_poly(pnt1.x() , pnt1.y(), poly)&#xd;&#xa;&#x9;&#x9;&#x9;if res:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;az = reverse_azimuth(az)&#xd;&#xa;&#x9;&#x9;&#x9;type = label_placement(az)&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;&#x9;tolerance = 10&#xd;&#xa;&#x9;&#x9;&#x9;searchRect = QgsRectangle(pnt1.x() - tolerance,&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  pnt1.y() - tolerance,&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  pnt1.x() + tolerance,&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  pnt1.y() + tolerance)&#xd;&#xa;&#x9;&#x9;&#x9;request = QgsFeatureRequest()&#xd;&#xa;&#x9;&#x9;&#x9;request.setFilterRect(searchRect)&#xd;&#xa;&#x9;&#x9;&#x9;cnt = 0 &#xd;&#xa;&#x9;&#x9;&#x9;for ftr in layer.getFeatures(request):&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;cnt += 1&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;ftr.setAttribute(&quot;type&quot;, type)&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;layer.updateFeature(ftr)&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;&#x9;&#x9;&#x9;# In case no features found in the vicinity of the vertex a point feature will be generated&#xd;&#xa;&#x9;&#x9;&#x9;if cnt == 0:&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;feat = QgsFeature(layer.pendingFields())&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;feat.setAttribute(&quot;id&quot;, counter)&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;feat.setAttribute(&quot;label&quot;, 'X-' + str(counter))&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;feat.setAttribute(&quot;type&quot;, type)&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;feat.setGeometry(QgsGeometry.fromPoint(QgsPoint(cr1.x(), cr1.y())))&#xd;&#xa;&#x9;&#x9;&#x9;&#x9;(res, outFeats) = layer.dataProvider().addFeatures([feat])&#xd;&#xa;&#x9;&#x9;&#x9;&#xd;&#xa;layer.triggerRepaint()&#xd;&#xa;" icon="" capture="1" type="1" name="Regenerate lable positions" shortTitle=""/>
       </attributeactions>
       <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns>
