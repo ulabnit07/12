@@ -76,13 +76,13 @@ def bisextrix_bearing(H, A, T):
 print "Ok"
 layer = None
 rectLayer = None
-layerList = QgsMapLayerRegistry.instance().mapLayersByName("point")
+layerList = QgsMapLayerRegistry.instance().mapLayersByName("as")
 if len(layerList) > 0:
     layer = layerList[0]
 else:
     print "Point table not found"
 
-layerList = QgsMapLayerRegistry.instance().mapLayersByName("rectangle")
+layerList = QgsMapLayerRegistry.instance().mapLayersByName("planilha")
 if len(layerList) > 0:
     rectLayer = layerList[0]
 else:
